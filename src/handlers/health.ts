@@ -41,6 +41,9 @@ export const healthCheckHandler = async (
         });
     } catch (error) {
         const { status, message } = error as CustomError;
-        return response.status(status).send(message);
+        return response.status(status).send({
+            status,
+            message,
+        });
     }
 };
