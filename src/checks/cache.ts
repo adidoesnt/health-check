@@ -31,12 +31,15 @@ const getCache = async () => {
     return cache;
 };
 
-const redis = await getCache();
-
 export const cacheHealthCheck = async () => {
     try {
+        const redis = await getCache();
         await redis.connect();
         logger.info("Cache connection has been established successfully.");
+        await redis.ping();
+        logger.debug("Cache was pinged successfully.");
+        await redis.disconnect();
+        logger.debug("Cache connection has been closed successfully.");
         return true;
     } catch (error) {
         logger.error("Unable to connect to the cache:", error);

@@ -22,7 +22,12 @@ export const healthCheckHandler = async (
     try {
         const databaseIsHealthy = await databaseHealthCheck();
         const cacheIsHealthy = await cacheHealthCheck();
-        if (!databaseIsHealthy) {
+        if (!databaseIsHealthy && !cacheIsHealthy) {
+            throw new CustomError({
+                status: 500,
+                message: "Database and cache are not healthy",
+            });
+        } else if (!databaseIsHealthy) {
             throw new CustomError({
                 status: 500,
                 message: "Database is not healthy",
