@@ -34,10 +34,25 @@ const config: Options = {
 
 const sequelize = new Sequelize(config);
 
+const runTestQuery = async (sequelize: Sequelize) => {
+    const result = await sequelize.query(
+        "SELECT 'database is healthy' AS data;"
+    );
+    const { data } = result[0][0] as { data: string };
+    if (data !== "database is healthy") {
+        throw new Error("Database test query result is not as expected.");
+    }
+    logger.debug("Database query result:", data);
+};
+
 export const databaseHealthCheck = async () => {
     try {
         await sequelize.authenticate();
         logger.info("Database connection has been established successfully.");
+        await runTestQuery(sequelize);
+        logger.debug("Successully ran test query on the database.");
+        await sequelize.close();
+        logger.debug("Database connection has been closed successfully.");
         return true;
     } catch (error) {
         logger.error("Unable to connect to the database:", error);
