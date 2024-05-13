@@ -32,8 +32,6 @@ const config: Options = {
     password,
 };
 
-const sequelize = new Sequelize(config);
-
 const runTestQuery = async (sequelize: Sequelize) => {
     const result = await sequelize.query(
         "SELECT 'database is healthy' AS data;"
@@ -47,6 +45,7 @@ const runTestQuery = async (sequelize: Sequelize) => {
 
 export const databaseHealthCheck = async () => {
     try {
+        const sequelize = new Sequelize(config);
         await sequelize.authenticate();
         logger.info("Database connection has been established successfully.");
         await runTestQuery(sequelize);
