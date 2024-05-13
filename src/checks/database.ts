@@ -49,7 +49,7 @@ export const databaseHealthCheck = async () => {
         await sequelize.authenticate();
         logger.info("Database connection has been established successfully.");
         await runTestQuery(sequelize);
-        logger.debug("Successully ran test query on the database.");
+        logger.debug("Successfully ran test query on the database.");
         await sequelize.close();
         logger.debug("Database connection has been closed successfully.");
         return true;
