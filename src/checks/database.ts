@@ -11,7 +11,6 @@ const {
     DB_PORT: port = 5432,
     DB_PASSWORD: password = "",
     DB_DATABASE: database = "dummy-database",
-    DB_SCHEMA: schema = "dummy-schema",
     ENCODED_CERT: certificate = "dummy-cert",
 } = process.env;
 
@@ -23,7 +22,6 @@ const config: Options = {
     host,
     port: Number(port),
     database,
-    schema,
     username,
     dialectOptions: {
         ssl: {
